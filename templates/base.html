@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Барбершоп{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&amp;subset=latin,cyrillic"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+</head>
+
+<body>
+
+{% include 'inc/_nav.html' %}
+{% block content %}CONTENT{% endblock %}
+{% include 'inc/_sidebar.html' %}
+
+</body>
+
+</html>

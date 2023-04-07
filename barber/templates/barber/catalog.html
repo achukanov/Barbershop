@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+<body class="inner-page">
+
+    <main class="container">
+
+        <h1 class="page-title">Cредства для ухода</h1>
+
+        <ul class="breadcrumbs">
+            <li>
+                <a href="{% url 'index' %}">Главная</a>
+            </li>
+            <li class="breadcrumbs-current">Магазин</li>
+        </ul>
+
+        <div class="catalog-columns">
+
+            <section class="filters">
+                <h2 class="visually-hidden">Фильтр товаров</h2>
+                <form class="filter" method="get" action="{% url 'catalog' %}">
+                    <fieldset>
+                        <legend>Производители:</legend>
+                        <ul>
+                            {% for producer in producers %}
+                            <li class="filter-option">
+                                <input class="visually-hidden filter-input filter-input-checkbox" type="checkbox" name="{{ producer.slug }}" id="{{ producer.slug }}">
+                                <label for="{{ producer.slug }}">{{ producer.title }}</label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Группы товаров:</legend>
+                        <ul>
+                            {% for category in categories %}
+                            <li class="filter-option">
+                                <input class="visually-hidden filter-input filter-input-radio" type="radio" name="product-group" value="{{ category.slug }}" id="{{ category.slug }}" >
+                                <label for="{{ category.slug }}">{{ category.title }}</label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </fieldset>
+                    <button type="submit" class="filter-button button">Показать</button>
+                </form>
+            </section>
+
+            <section class="catalog">
+                <h2 class="visually-hidden">Список средств для ухода</h2>
+                <ul class="catalog-list">
+
+
+
+                    {% for item in products %}
+                        {% if item.photo %}
+                        <li class="catalog-item">
+                            <a href="{% url 'catalog' %}/{{ item.pk }}">
+                                <img class="catalog-item-image" src="{{ item.photo.url }}" alt="">
+                            </a>
+                        {% endif %}
+                        <h3>
+                            <span class="catalog-category">{{ item.product_name }}</span>
+                            <span class="catalog-item-title">{{ item.producer }}</span>
+                        </h3>
+                        <p class="catalog-item-price">
+                            {% if item.on_sale %}
+                            <b>{{ item.units_price }} ₽</b>
+                            <a class="button" href="#">Купить</a>
+                            {% else %}
+                            <b>Нет в наличии</b>
+                            {% endif %}
+                        </p>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+
+                {% if page_obj.has_other_pages %}
+                <ul class="pagination-list">
+                    {% if page_obj.has_previous %}
+                    <li class="pagination-item">
+                        <a href="?page={{ page_obj.previous_page_number }}" tabindex="-1">&#9668;</a>
+                    </li>
+                    {% endif %}
+
+                    {% for p in page_obj.paginator.page_range %}
+
+                    {% if page_obj.number == p %}
+                    <li class="pagination-item pagination-item-current">
+                        <a href="?page={{ p }}">{{ p }}</a>
+                    </li>
+                    {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                    <li class="pagination-item">
+                        <a href="?page={{ p }}">{{ p }}</a>
+                    </li>
+                    {% endif %}
+
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="pagination-item">
+                        <a href="?page={{ page_obj.next_page_number }}">&#9658;</a>
+                    </li>
+
+                {% endif %}
+                </ul>
+                {% endif %}
+
+
+
+
+
+            </section>
+        </div>
+    </main>
+</body>
+{% endblock %}

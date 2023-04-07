@@ -1,0 +1,38 @@
+<nav class="navbar">
+    <header class="main-header">
+        <nav class="main-navigation">
+
+            <div class="main-navigation-wrapper">
+                <div class="container">
+                    <ul class="site-navigation">
+                        <li>
+                            <a href="{%url 'index'%}">Главная</a>
+                        </li>
+                        <li>
+                            <a href="{%url 'price'%}">Прайс-лист</a>
+                        </li>
+                        <li>
+                            <a href="{%url 'catalog'%}">Магазин</a>
+                        </li>
+<!--                        <li>-->
+<!--                            <a href="contacts.html">Контакты</a>-->
+<!--                        </li>-->
+                    </ul>
+                    <ul class="user-navigation">
+                        {% if request.user.is_authenticated %}
+                        <li>
+                            <a>{{ user.username }}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}"> Выход </a>
+                            {% else %}
+                            <a class="login-link" href="{%url 'user_login'%}">Вход</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+</nav>
+
